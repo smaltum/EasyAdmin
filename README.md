@@ -21,4 +21,5 @@
 ├── router
 │   └── middleware
 ├── storage
+├── web
 ```

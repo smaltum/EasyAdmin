@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"context"
+	"easy-admin/plugin/resp"
 	"easy-admin/router/admin"
 	"easy-admin/router/api"
 	"fmt"
@@ -14,8 +15,8 @@ import (
 	"time"
 )
 
-// InitRouter 路由初始化
-func InitRouter() {
+// initRouter 路由初始化
+func initRouter() {
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%d", Config.Server.Port),
@@ -51,7 +52,7 @@ func engine() *gin.Engine {
 	publicGroup := eaGroup.Group("")
 	{
 		publicGroup.Any("/info", func(c *gin.Context) {
-			c.JSON(http.StatusOK, "success")
+			resp.New(c).ResponseOK()
 		})
 		// api
 		api.RouterGroup.InitPublic(publicGroup)
@@ -69,7 +70,7 @@ func engine() *gin.Engine {
 	return eng
 }
 
-// Shutdown 停机
+// shutdown kill -9
 // 监听标准信号
 func shutdown(server *http.Server) {
 	sdSign := make(chan os.Signal)
