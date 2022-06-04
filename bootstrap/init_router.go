@@ -36,9 +36,11 @@ func (r *router) _init() {
 		}
 	}()
 
-	fmt.Printf(`[swagger:] http://127.0.0.1:%d/swagger/index.html
+	fmt.Printf(`
+[swagger:] http://127.0.0.1:%d/swagger/index.html
 [server :] http://127.0.0.1:%d/info
-[github :] https://github.com/smaltum/EasyAdmin.git`,
+[github :] https://github.com/smaltum/EasyAdmin.git
+`,
 		listenAddr, listenAddr)
 
 	// 监听退出

@@ -76,6 +76,7 @@ func (r *database) _init() {
 	r.GDB = db
 	// 表迁移
 	autoMigrate(r.GDB)
+
 }
 
 // autoMigrateDb 自动迁移
