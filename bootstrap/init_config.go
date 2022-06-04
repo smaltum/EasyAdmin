@@ -1,39 +1,36 @@
 package bootstrap
 
 import (
-	"github.com/BurntSushi/toml"
-	"log"
+	"easy-admin/plugin/gvar"
+	"fmt"
+	"github.com/fsnotify/fsnotify"
+	"github.com/spf13/viper"
 )
 
-var Config config
-
-func init() {
-	loadConfig()
-}
-
-func loadConfig() {
-	var cfgPath string = "config/config.toml"
-	if _, err := toml.DecodeFile(cfgPath, &Config); err != nil {
-		log.Println(err)
-	}
-}
+var Cfg = new(config)
 
 type config struct {
-	Server server
-	Oss    oss
+	cfg *viper.Viper
 }
 
-// server 服务
-type server struct {
-	Port               int
-	Mode               string
-	MaxMultipartMemory int64
+func (r *config) _init() {
+
+	var cfgPath = "config/config.toml"
+
+	r.cfg = viper.New()
+	r.cfg.SetConfigFile(cfgPath)
+	r.cfg.SetConfigType("toml")
+	err := r.cfg.ReadInConfig()
+	if err != nil {
+		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	}
+	r.cfg.WatchConfig()
+
+	r.cfg.OnConfigChange(func(e fsnotify.Event) {
+		fmt.Println("config file changed:", e.Name)
+	})
 }
 
-// oss 云存储
-type oss struct {
-	AppKey    string
-	AppSecret string
-	Bucket    string
-	Endpoint  string
+func (r *config) GetVal(key string) *gvar.Var {
+	return gvar.New(r.cfg.Get(key), true)
 }

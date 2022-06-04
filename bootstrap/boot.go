@@ -2,6 +2,8 @@ package bootstrap
 
 func Init() {
 
-	initRouter()
+	Cfg._init()
+	DB._init()
+	Router._init()
 
 }
