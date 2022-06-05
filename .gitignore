@@ -12,7 +12,6 @@ go.sum
 .idea/
 .settings/
 .vscode/
-storage/
 
 # admin
 web/node_modules/
