@@ -10,7 +10,13 @@ let router = new Router({
       path: '/',
       name: 'Login',
       component: resove => require(['@/view/login/index'], resove)
-    }]
+    },
+    {
+      path: '/index',
+      name: 'Main',
+      component: resove => require(['@/view/main/index'], resove)
+    }
+  ]
 })
 
 

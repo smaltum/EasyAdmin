@@ -17,13 +17,13 @@
         </div>
         <el-form
           ref="loginFormData"
-          :model="loginFormData"
+          :model="loginData"
         >
 
           <!--    用户名      -->
           <el-form-item prop="username">
             <el-input
-              v-model="loginFormData.username"
+              v-model="loginData.username"
               placeholder="请输入用户名"
             >
             </el-input>
@@ -32,7 +32,7 @@
           <!--    密码      -->
           <el-form-item prop="password">
             <el-input
-              v-model="loginFormData.password"
+              v-model="loginData.password"
               :type="'password'"
               placeholder="请输入密码"
             >
@@ -43,7 +43,7 @@
           <el-form-item prop="captcha">
             <div class="login-panel-form-cap ">
               <el-input
-                v-model="loginFormData.captcha"
+                v-model="loginData.captcha"
                 placeholder="请输入验证码"
                 style="width: 60%"
               />
@@ -61,7 +61,7 @@
             size="large"
             style="width: 100%;"
             @click="login"
-          >登 录
+          >登&nbsp;&nbsp;录
           </el-button>
 
         </el-form>
@@ -72,12 +72,11 @@
 </template>
 
 <script>
-
 export default {
   name: "login",
   data() {
     return {
-      loginFormData: {
+      loginData: {
         username: 'admin',
         password: 'admin',
         captcha: '',
@@ -85,9 +84,15 @@ export default {
     };
   },
   methods: {
-    login() {
 
+    // 登录
+    login() {
+      console.log(this.loginData)
+      this.$router.push({
+        path:"/index"
+      })
     }
+
   }
 };
 </script>
