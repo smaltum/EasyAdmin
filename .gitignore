@@ -12,7 +12,7 @@ go.sum
 .idea/
 .settings/
 .vscode/
-/bin/*
+bin/*
 storage/
 
 # admin
