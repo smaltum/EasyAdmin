@@ -1,0 +1,38 @@
+# 服务配置
+[server]
+    port = 8080
+    model = "debug"
+    maxMultipartMemory = 5242880
+
+# 日志
+[log]
+    level="debug"
+
+# 数据库配置
+[database]
+    # mysql
+    [database.default]
+        type = "mysql"
+        host = "127.0.0.1:3306"
+        config = "charset=utf8mb4&parseTime=True&loc=Local"
+        user = "root"
+        password = "root"
+        name = "db_ea"
+        prefix = "tb_"
+        logMode = false
+        connMaxLifeTime = 60
+        maxIdleConn = 10
+        maxOpenConn = 100
+    # redis
+    [database.redis]
+
+# 云服务器
+[ecs]
+
+
+    [ecs.oss]
+        appKey = "4gLbqTswBrP50XL48tJMFNPd3SoluTSQm8Y4B8Wr"
+        appSecret = "b2r7tWdcDchoGflLwuxTf44XtR5LWx-mGJBnH9qC"
+        endpoint = "http://qncnd.smaltum.top/"
+        bucket = "smaltum"
+
