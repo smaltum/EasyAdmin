@@ -1,69 +1,120 @@
 <template>
-  <div>
+  <div id="mainLayout">
 
-    <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
-      <el-radio-button :label="false">展开</el-radio-button>
-      <el-radio-button :label="true">收起</el-radio-button>
-    </el-radio-group>
-    <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-             :collapse="isCollapse">
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span slot="title">导航一</span>
-        </template>
-        <el-menu-item-group>
-          <span slot="title">分组一</span>
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <span slot="title">选项4</span>
-          <el-menu-item index="1-4-1">选项1</el-menu-item>
+    <!--  左侧  -->
+    <div :class="menuCollapseState?'main-layout-left-close':'main-layout-left-open'">
+
+      <el-menu class="main-layout-left-menu" @open="handleOpen" @close="handleClose"
+               :collapse="menuCollapseState">
+
+        <li class="el-menu-item">
+
+          <div :class="menuCollapseState?'main-layout-left-header-close':'main-layout-left-header-open'">
+            <img alt="" src="favicon.ico" style="width: 40px;height: 40px;"/>
+            <span>EasyAdmin</span>
+          </div>
+
+        </li>
+
+        <el-menu-item index="0">
+          <i class="el-icon-menu"></i>
+          <span slot="title">仪表盘</span>
+        </el-menu-item>
+
+        <el-submenu index="1">
+          <template slot="title">
+            <i class="el-icon-setting"></i>
+            <span slot="title">管理</span>
+          </template>
+          <el-menu-item-group>
+            <span slot="title">分组一</span>
+            <el-menu-item index="1-1">选项1</el-menu-item>
+            <el-menu-item index="1-2">选项2</el-menu-item>
+          </el-menu-item-group>
+          <el-submenu index="1-4">
+            <span slot="title">选项4</span>
+            <el-menu-item index="1-4-1">选项1</el-menu-item>
+          </el-submenu>
         </el-submenu>
-      </el-submenu>
-      <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
-        <span slot="title">导航二</span>
-      </el-menu-item>
-      <el-menu-item index="3" disabled>
-        <i class="el-icon-document"></i>
-        <span slot="title">导航三</span>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <i class="el-icon-setting"></i>
-        <span slot="title">导航四</span>
-      </el-menu-item>
-    </el-menu>
+
+      </el-menu>
+
+    </div>
+
+    <!--  右侧  -->
+    <div class="main-layout-right">
+
+      <el-header class="main-layout-right-header">
+
+        <div class="main-layout-right-header-right">
+          <i v-model="menuCollapseState" :class="menuCollapseState?'el-icon-d-arrow-left':'el-icon-d-arrow-right'"
+             @click="switchCollapse" style="font-size: 18px;color: #333333;margin-left: 14px;">
+            &nbsp;{{ menuCurrentLabel }}
+          </i>
+
+          <div>
+
+            <i class="el-icon-setting main-layout-right-header-right-i"/>
+
+            <el-dropdown trigger="click" style="margin-right: 30px">
+
+              <i class="el-icon-user main-layout-right-header-right-i">{{ loginUser.userName }}</i>
+
+              <el-dropdown-menu slot="dropdown" style="margin-top: 30px">
+                <el-dropdown-item icon="el-icon-plus">个人中心</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-circle-check">退出</el-dropdown-item>
+              </el-dropdown-menu>
+
+            </el-dropdown>
+          </div>
+        </div>
+
+        <div style="height: 1px;background: #cdcdcd;"/>
+      </el-header>
+
+      <!--   功能区   -->
+      <div class="main-layout-right-content">
+
+      </div>
+
+    </div>
 
   </div>
 
 </template>
-<style>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
-}
-</style>
 
 <script>
 export default {
-  name: "main",
+  name: "Main",
   data() {
     return {
-      isCollapse: true
+      // 菜单栏状态
+      menuCollapseState: false,
+      // 当前页标签
+      menuCurrentLabel: "仪表盘",
+      // 当前用户
+      loginUser: {
+        userName: '超级管理员', // 名称
+        userType: 1, // 类型
+        userAvtar: '', // 头像
+      },
+
     };
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      console.log(key, keyPath, this.menuCollapseState);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      console.log(key, keyPath, this.menuCollapseState);
+    },
+    switchCollapse() {
+      this.menuCollapseState = !this.menuCollapseState;
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "@/style/main.scss";
+</style>

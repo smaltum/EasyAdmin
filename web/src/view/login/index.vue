@@ -89,7 +89,7 @@ export default {
     login() {
       console.log(this.loginData)
       this.$router.push({
-        path:"/index"
+        path: "/index"
       })
     }
 
