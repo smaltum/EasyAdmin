@@ -54,15 +54,31 @@
 
           <div>
 
-            <i class="el-icon-setting main-layout-right-header-right-i"/>
+            <el-dropdown trigger="click">
 
-            <el-dropdown trigger="click" style="margin-right: 30px">
-
-              <i class="el-icon-user main-layout-right-header-right-i">{{ loginUser.userName }}</i>
+              <i class="el-icon-setting main-layout-right-header-right-i"/>
 
               <el-dropdown-menu slot="dropdown" style="margin-top: 30px">
+                <el-dropdown-item icon="el-icon-plus" @click.native="intentToPage('/index/manage/role')">
+                  角色管理
+                </el-dropdown-item>
+                <el-dropdown-item icon="el-icon-plus" @click.native="intentToPage('/index/manage/user')">
+                  用户管理
+                </el-dropdown-item>
+              </el-dropdown-menu>
+
+            </el-dropdown>
+
+            <el-dropdown trigger="click" size="small">
+
+               <span class="el-dropdown-link" style="display: flex;align-items: center">
+                <el-avatar shape="circle" size="medium" :src="loginUser.userAvtar"/>
+                {{ loginUser.userName }}
+                <i class="el-icon-arrow-down main-layout-right-header-right-i"/>
+               </span>
+              <el-dropdown-menu slot="dropdown" style="margin-top: 20px">
                 <el-dropdown-item icon="el-icon-plus">个人中心</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-circle-check">退出</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-circle-check" @click.native="logout">退出</el-dropdown-item>
               </el-dropdown-menu>
 
             </el-dropdown>
@@ -74,7 +90,7 @@
 
       <!--   功能区   -->
       <div class="main-layout-right-content">
-
+        <router-view/>
       </div>
 
     </div>
@@ -96,20 +112,33 @@ export default {
       loginUser: {
         userName: '超级管理员', // 名称
         userType: 1, // 类型
-        userAvtar: '', // 头像
+        userAvtar: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png', // 头像
       },
 
     };
   },
   methods: {
+    // 登出
+    logout() {
+      this.$router.push({
+        path: "/"
+      })
+    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath, this.menuCollapseState);
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath, this.menuCollapseState);
     },
+    // 开关menu
     switchCollapse() {
       this.menuCollapseState = !this.menuCollapseState;
+    },
+    // 跳转路由
+    intentToPage(path) {
+      this.$router.push({
+        path: path
+      })
     }
   }
 }

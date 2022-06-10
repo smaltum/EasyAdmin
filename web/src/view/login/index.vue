@@ -73,7 +73,7 @@
 
 <script>
 export default {
-  name: "login",
+  name: "Login",
   data() {
     return {
       loginData: {
@@ -87,7 +87,6 @@ export default {
 
     // 登录
     login() {
-      console.log(this.loginData)
       this.$router.push({
         path: "/index"
       })

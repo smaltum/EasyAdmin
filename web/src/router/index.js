@@ -14,7 +14,19 @@ let router = new Router({
     {
       path: '/index',
       name: 'Main',
-      component: resove => require(['@/view/main/index'], resove)
+      component: resove => require(['@/view/main/index'], resove),
+      children:[
+        {
+          path: '/index/manage/role',
+          name: 'Role',
+          component: resove => require(['@/view/role/index'], resove)
+        },
+        {
+          path: '/index/manage/user',
+          name: 'User',
+          component: resove => require(['@/view/user/index'], resove)
+        }
+      ]
     }
   ]
 })
