@@ -7,40 +7,68 @@
   padding: 0;
   display: flex;
 
-  .main-layout-left-open {
+  .main-layout-left {
     height: 100%;
-    max-width: 250px;
     flex: 1;
+    max-width: 200px;
+    // -webkit-transition: linear .3s !important;
+    // -moz-transition: linear .3s !important;
+    // -o-transition: linear .3s !important;
+    // transition: linear .3s !important;
+  }
+
+  .main-layout-left-header {
+    height: 59px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #253b45;
+    border-width: 1px;
+    border-right: #cdcdcd 1px solid;
+    border-bottom: #cdcdcd 1px solid;
+  }
+
+  .main-layout-left-open {
+    max-width: 200px;
 
     .main-layout-left-header-open {
-      height: 100%;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
 
-      > span {
+      >span {
         color: #fff;
         font-size: 22px;
       }
-    }
 
+      .main-layout-left-header-img-open-below {
+        width: 40px;
+        height: 40px;
+      }
+
+      .main-layout-left-header-img-open-above {
+        width: 50px;
+        height: 50px;
+        display: none;
+      }
+    }
   }
 
   .main-layout-left-close {
-    height: 100%;
-    max-width: 64px;
-    flex: 1;
+    max-width: 65px;
 
     .main-layout-left-header-close {
-      height: 100%;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      color: #fff;
-      font-size: 20px;
 
-      > span {
-        visibility: hidden;
+      >span {
+        display: none;
+      }
+
+      .main-layout-left-header-img-open-below {
+        width: 40px;
+        height: 40px;
+        display: none;
+      }
+
+      .main-layout-left-header-img-open-above {
+        width: 50px;
+        height: 50px;
       }
     }
 
@@ -51,7 +79,6 @@
     background-color: #545c64;
     color: #fff;
   }
-
 
   .main-layout-right {
     flex: 3;
@@ -69,12 +96,12 @@
         align-items: center;
         height: 100%;
 
-        .main-layout-right-header-right-i{
+        .main-layout-right-header-right-i {
           font-size: 16px;
           margin-right: 20px;
         }
 
-        > div {
+        >div {
           display: flex;
           align-items: center;
         }

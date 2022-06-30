@@ -2,40 +2,39 @@
   <div id="mainLayout">
 
     <!--  左侧  -->
-    <div :class="menuCollapseState?'main-layout-left-close':'main-layout-left-open'">
+    <div class="main-layout-left" :class="menuCollapseState ? 'main-layout-left-close' : 'main-layout-left-open'">
 
-      <el-menu class="main-layout-left-menu" @open="handleOpen" @close="handleClose"
-               :collapse="menuCollapseState">
+      <div class="main-layout-left-header"
+        :class="menuCollapseState ? 'main-layout-left-header-close' : 'main-layout-left-header-open'">
+        <img alt="" src="favicon.ico"
+          :class="menuCollapseState ? 'main-layout-left-header-img-open-above' : 'main-layout-left-header-img-open-below'" />
+        <span>EasyAdmin</span>
+      </div>
 
-        <li class="el-menu-item">
+      <el-menu class="main-layout-left-menu" background-color="#253b45" text-color="#eaeaea" @open="handleOpen"
+        @close="handleClose" :collapse="menuCollapseState" @select="handleSelect">
 
-          <div :class="menuCollapseState?'main-layout-left-header-close':'main-layout-left-header-open'">
-            <img alt="" src="favicon.ico" style="width: 40px;height: 40px;"/>
-            <span>EasyAdmin</span>
-          </div>
+        <!-- 菜单项 -->
+        <div v-for="(menu, index) in menuList">
 
-        </li>
+          <el-menu-item v-if="menu.type == 1" :index="menu.index">
+            <i :class="menu.icon"></i>
+            <span slot="title">{{ menu.label }}</span>
+          </el-menu-item>
 
-        <el-menu-item index="0">
-          <i class="el-icon-menu"></i>
-          <span slot="title">仪表盘</span>
-        </el-menu-item>
+          <el-submenu v-if="menu.type == 2" :index="menu.index">
+            <template slot="title">
+              <i :class="menu.icon"></i>
+              <span slot="title">{{ menu.label }}</span>
+            </template>
 
-        <el-submenu index="1">
-          <template slot="title">
-            <i class="el-icon-setting"></i>
-            <span slot="title">管理</span>
-          </template>
-          <el-menu-item-group>
-            <span slot="title">分组一</span>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="1-4">
-            <span slot="title">选项4</span>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
+            <!-- 子菜单 -->
+            <el-menu-item-group>
+              <el-menu-item v-for="(group, index) in menu.groups" :index="group.index">{{ group.label }}</el-menu-item>
+            </el-menu-item-group>
+
           </el-submenu>
-        </el-submenu>
+        </div>
 
       </el-menu>
 
@@ -47,8 +46,8 @@
       <el-header class="main-layout-right-header">
 
         <div class="main-layout-right-header-right">
-          <i v-model="menuCollapseState" :class="menuCollapseState?'el-icon-d-arrow-left':'el-icon-d-arrow-right'"
-             @click="switchCollapse" style="font-size: 18px;color: #333333;margin-left: 14px;">
+          <i :class="menuCollapseState ? 'el-icon-d-arrow-left' : 'el-icon-d-arrow-right'" @click="switchCollapse"
+            style="font-size: 18px;color: #333333;margin-left: 14px;">
             &nbsp;{{ menuCurrentLabel }}
           </i>
 
@@ -56,7 +55,7 @@
 
             <el-dropdown trigger="click">
 
-              <i class="el-icon-setting main-layout-right-header-right-i"/>
+              <i class="el-icon-setting main-layout-right-header-right-i" />
 
               <el-dropdown-menu slot="dropdown" style="margin-top: 30px">
                 <el-dropdown-item icon="el-icon-plus" @click.native="intentToPage('/index/manage/role')">
@@ -71,11 +70,11 @@
 
             <el-dropdown trigger="click" size="small">
 
-               <span class="el-dropdown-link" style="display: flex;align-items: center">
-                <el-avatar shape="circle" size="medium" :src="loginUser.userAvtar"/>
-                {{ loginUser.userName }}
-                <i class="el-icon-arrow-down main-layout-right-header-right-i"/>
-               </span>
+              <span class="el-dropdown-link" style="display: flex;align-items: center">
+                <el-avatar shape="circle" size="medium" :src="loginUser.user.avatar" style="margin-right: 10px;" />
+                {{ loginUser.user.name }}
+                <i class="el-icon-arrow-down main-layout-right-header-right-i" />
+              </span>
               <el-dropdown-menu slot="dropdown" style="margin-top: 20px">
                 <el-dropdown-item icon="el-icon-plus">个人中心</el-dropdown-item>
                 <el-dropdown-item icon="el-icon-circle-check" @click.native="logout">退出</el-dropdown-item>
@@ -85,12 +84,12 @@
           </div>
         </div>
 
-        <div style="height: 1px;background: #cdcdcd;"/>
+        <div style="height: 1px;background: #cdcdcd;" />
       </el-header>
 
       <!--   功能区   -->
       <div class="main-layout-right-content">
-        <router-view/>
+        <router-view />
       </div>
 
     </div>
@@ -100,22 +99,28 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "Main",
   data() {
     return {
       // 菜单栏状态
       menuCollapseState: false,
+      // 菜单栏
+      menuList: [],
       // 当前页标签
       menuCurrentLabel: "仪表盘",
-      // 当前用户
-      loginUser: {
-        userName: '超级管理员', // 名称
-        userType: 1, // 类型
-        userAvtar: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png', // 头像
-      },
-
     };
+  },
+  computed: {
+    ...mapGetters({
+      loginUser: "getLoginUser"
+    })
+  },
+  mounted() {
+    this.menuList = this.loginUser.menu_list
+    console.log(this.menuList)
   },
   methods: {
     // 登出
@@ -125,10 +130,13 @@ export default {
       })
     },
     handleOpen(key, keyPath) {
-      console.log(key, keyPath, this.menuCollapseState);
+      console.log("handleOpen", key, keyPath, this.menuCollapseState);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath, this.menuCollapseState);
+      console.log("handleClose", key, keyPath, this.menuCollapseState);
+    },
+    handleSelect(index) {
+      console.log(index)
     },
     // 开关menu
     switchCollapse() {
