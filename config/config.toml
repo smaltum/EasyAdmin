@@ -25,10 +25,12 @@
         maxOpenConn = 100
     # redis
     [database.redis]
+        port = 6379
+        pass = ""
+        db = 0
 
 # 云服务器
 [ecs]
-
 
     [ecs.oss]
         appKey = "4gLbqTswBrP50XL48tJMFNPd3SoluTSQm8Y4B8Wr"
